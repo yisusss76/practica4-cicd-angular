@@ -14,7 +14,8 @@ describe('CarteleraService', () => {
   });
 
   it('expresa en minutos una duración inferior a una hora', () => {
-    expect(cartelera.formatearDuracion(45)).toBe('45 h');
+    expect(cartelera.formatearDuracion(45)).toBe('45 min');
+    expect(cartelera.formatearDuracion(0)).toBe('0 min');
   });
 
   it('omite los minutos en las horas exactas', () => {
