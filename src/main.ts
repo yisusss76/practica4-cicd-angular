@@ -1,4 +1,4 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 
-bootstrapApplication(App).catch(error => console.error(error));
+bootstrapApplication(App).catch(error => console.error('Error al iniciar la cartelera.', error));
