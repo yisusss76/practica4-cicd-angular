@@ -22,6 +22,23 @@ export class CarteleraService {
     return this.sesiones[posicion];
   }
 
+  obtenerHoraFin(dia: string): string | undefined {
+    const sesion = this.obtenerSesion(dia);
+    if (!sesion) {
+      return undefined;
+    }
+    const partes = sesion.hora.split(':');
+    const inicio = Number(partes[0]) * 60 + Number(partes[1]);
+    const fin = inicio + sesion.minutos;
+    const horas = Math.floor(fin / 60) % 24;
+    const minutos = fin % 60;
+    const horaFin = String(horas).padStart(2, '0') + ':' + String(minutos).padStart(2, '0');
+    if (fin >= 24 * 60) {
+      return horaFin + ' del día siguiente';
+    }
+    return horaFin;
+  }
+
   formatearDuracion(minutos: number): string {
     const horas = Math.floor(minutos / 60);
     const resto = minutos % 60;

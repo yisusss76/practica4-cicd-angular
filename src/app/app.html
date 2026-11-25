@@ -11,6 +11,7 @@
   <section aria-label="Sesión del día" aria-live="polite">
     @if (cartelera.obtenerSesion(diaSeleccionado); as sesion) {
       <app-ficha-sesion [sesion]="sesion" />
+      <p>Fin de la sesión · {{ cartelera.obtenerHoraFin(diaSeleccionado) }}</p>
     }
   </section>
 </main>

@@ -3,6 +3,19 @@ import { CarteleraService } from './cartelera.service';
 describe('CarteleraService', () => {
   const cartelera = new CarteleraService();
 
+  it('calcula el fin de la sesión y admite un día sin programación', () => {
+    expect(cartelera.obtenerHoraFin('Viernes')).toBe('22:06');
+    expect(cartelera.obtenerHoraFin('Lunes')).toBeUndefined();
+  });
+
+  it('indica si la proyección termina al día siguiente', () => {
+    const carteleraNocturna = new CarteleraService();
+    vi.spyOn(carteleraNocturna, 'obtenerSesion').mockReturnValue({
+      titulo: 'Sesión de noche', genero: 'Misterio', hora: '23:30', minutos: 90
+    });
+    expect(carteleraNocturna.obtenerHoraFin('Sábado')).toBe('01:00 del día siguiente');
+  });
+
   it('devuelve la película programada para cada día', () => {
     expect(cartelera.obtenerSesion('Viernes')?.titulo).toBe('La última bobina');
     expect(cartelera.obtenerSesion('Sábado')?.hora).toBe('19:00');
