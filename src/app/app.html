@@ -1,0 +1,16 @@
+<header><div class="marca"><span aria-hidden="true">✳</span> Cine de barrio</div></header>
+<main>
+  <h1>Cartelera del<br><em>fin de semana.</em></h1>
+  <p class="indicacion">Elige un día para consultar la película y su horario.</p>
+  <div class="dias" role="group" aria-label="Día de la sesión">
+    @for (dia of cartelera.dias; track dia) {
+      <button type="button" [attr.aria-pressed]="dia === diaSeleccionado"
+              (click)="seleccionarDia(dia)">{{ dia }}</button>
+    }
+  </div>
+  <section aria-label="Sesión del día" aria-live="polite">
+    @if (cartelera.obtenerSesion(diaSeleccionado); as sesion) {
+      <app-ficha-sesion [sesion]="sesion" />
+    }
+  </section>
+</main>

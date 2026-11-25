@@ -1,0 +1,11 @@
+<article class="entrada" aria-labelledby="pelicula">
+  <div class="pelicula">
+    <p class="genero">{{ sesion.genero }}</p>
+    <h2 id="pelicula">{{ sesion.titulo }}</h2>
+    <p>Duración · {{ cartelera.formatearDuracion(sesion.minutos) }}</p>
+  </div>
+  <div class="hora">
+    <span>Inicio de la sesión</span>
+    <strong>{{ sesion.hora }}</strong>
+  </div>
+</article>

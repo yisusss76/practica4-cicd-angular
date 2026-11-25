@@ -1,0 +1,28 @@
+:root { font-family: "DM Sans", system-ui, sans-serif; color: #173d36; background: #f6f2e7; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header { border-bottom: 1px solid #bac4b6; }
+.marca, main { width: min(850px, 88%); margin: auto; }
+.marca { display: flex; align-items: center; gap: .65rem; padding: 1rem 0; font-weight: 750; }
+.marca span { color: #a43b27; font-size: 1.8rem; }
+main { padding: clamp(2rem, 5vw, 4rem) 0; }
+h1, h2 { font-family: "DM Serif Text", Georgia, serif; font-weight: 500; }
+h1 { margin: 0; font-size: clamp(3rem, 8vw, 5.8rem); line-height: .99; letter-spacing: -.055em; }
+h1 em { color: #935032; }
+.indicacion { margin: 1.5rem 0 1.15rem; }
+.dias { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+button { font: inherit; cursor: pointer; padding: .65rem 1.15rem; border: 1px solid #84988e; border-radius: 2rem; color: inherit; background: transparent; }
+button:hover { background: #e4e9db; }
+button[aria-pressed="true"] { color: #fff; background: #173d36; }
+button:focus-visible { outline: 3px solid #a43b27; outline-offset: 3px; }
+.entrada { display: grid; grid-template-columns: 2fr 1fr; border-radius: .65rem; color: #fff9e8; background: #173d36; overflow: hidden; }
+.pelicula, .hora { padding: clamp(1.5rem, 4vw, 2.7rem); }
+.genero { text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; color: #e8cfa0; }
+h2 { margin: .6rem 0; font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.05; }
+.pelicula p { margin: .4rem 0; }
+.hora { display: flex; flex-direction: column; justify-content: center; border-left: 2px dashed #76978c; }
+.hora strong { margin-top: .25rem; font-size: clamp(2rem, 4vw, 3rem); font-variant-numeric: tabular-nums; }
+@media (max-width: 540px) {
+  .entrada { grid-template-columns: 1fr; }
+  .hora { border-left: 0; border-top: 2px dashed #76978c; }
+}

@@ -1,0 +1,71 @@
+name: Angular CI/CD
+
+# on: verifica las propuestas a main y cada actualización de main.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# jobs: build comprueba el proyecto y deploy publica su resultado.
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # permissions: basta con leer el código para compilarlo.
+    permissions:
+      contents: read
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node 22 y la caché de npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalar las dependencias exactas
+        run: npm ci
+
+      - name: Ejecutar tests y exigir cobertura mínima
+        run: npm run test:ci
+
+      - name: Guardar el informe de cobertura
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura
+          path: coverage/
+          if-no-files-found: ignore
+
+      - name: Compilar Angular para la ruta del repositorio
+        env:
+          REPOSITORIO: ${{ github.event.repository.name }}
+        run: npx ng build --base-href "/${REPOSITORIO}/"
+
+      - name: Preparar la web para Pages
+        # if: las PR comprueban el código; solo main prepara la publicación.
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/cartelera/browser
+
+  deploy:
+    # needs: Pages espera a que build termine correctamente.
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # permissions: publicar en Pages y acreditar el despliegue.
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacion.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: publicacion
+        uses: actions/deploy-pages@v4
